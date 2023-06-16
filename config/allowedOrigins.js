@@ -3,7 +3,9 @@ const allowedOrigins = [
   "http://localhost:3001",
   "http://172.105.88.250",
   "https://172.105.88.250",
-
+  "https://wibxc.xyz",
+  "https://wibxc.xyz/api",
+  "https://wibxc.xyz/Login",
   "http://172.105.88.250/Login",
   "https://172.105.88.250/Login",
   // "http://143.42.61.215/",

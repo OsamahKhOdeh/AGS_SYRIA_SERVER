@@ -8,6 +8,7 @@ import {
   getAllArchives,
 } from "../../controllers/ArchiveControllers/ArchiveControllers.js";
 import multer from "multer";
+const router = express.Router();
 
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -30,6 +31,11 @@ import fs from "fs";
 // });
 
 // Create a multer instance with the storage configuration
+
+/* -------------------------------------------------------------------------- */
+/*                                MULTER CONFIG                               */
+/* -------------------------------------------------------------------------- */
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     console.log("destoooooooooo");
@@ -65,8 +71,8 @@ const uploadStorage = multer({
   fileFilter: fileFilter,
 });
 
-const router = express.Router();
-/* -------------------------------------------------------------------------- */
+/* ---------------------------- MULTER CONFIG EDN --------------------------- */
+
 router.post("/", uploadStorage.single("file"), createArchive);
 
 router.get("/archive/:caseName", downloadArchiveFile);

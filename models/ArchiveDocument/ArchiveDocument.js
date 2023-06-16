@@ -9,7 +9,7 @@ const ArchiveDocumentSchema = new mongoose.Schema(
     files: [
       {
         uploaded: { type: Boolean, default: false },
-        type: { type: String, enum: ["PKL", "BEOE", "AS"] },
+        type: { type: String, enum: ["PKL", "BEOE", "AS", "INVOICE"] },
         path: { type: String },
       },
     ],

@@ -88,7 +88,7 @@ export const addArchiveFile = async (req, res) => {
       archiveDoc.files[fileIndex].path = req.file.path;
     }
 
-    if (archiveDoc.files.length > 2) {
+    if (archiveDoc.files.length > 3) {
       archiveDoc.status = caseStatus.IN_PROGRESS;
     }
     console.log("fOUND");
@@ -118,6 +118,17 @@ export const addArchiveInvoiceNumber = async (req, res) => {
       res.json({ error: "No such case" });
       return;
     }
+    // let fileIndex = archiveDoc.files.findIndex((f) => f.type === req.body.fileType);
+    // if (fileIndex === -1) {
+    //   archiveDoc.files.push({
+    //     type: req.body.fileType,
+    //     uploaded: true,
+    //     path: req.file.path,
+    //   });
+    // } else {
+    //   archiveDoc.files[fileIndex].path = req.file.path;
+    // }
+
     // archiveDoc.status = caseStatus.IN_PROGRESS;
     archiveDoc.acountingEmployee = acountingEmployee;
     archiveDoc.invoiceNumber = invoiceNumber;
