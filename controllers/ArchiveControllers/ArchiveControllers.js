@@ -130,6 +130,7 @@ export const addArchiveInvoiceNumber = async (req, res) => {
     // }
 
     // archiveDoc.status = caseStatus.IN_PROGRESS;
+    console.log({ invoiceNumber, acountingEmployee });
     archiveDoc.acountingEmployee = acountingEmployee;
     archiveDoc.invoiceNumber = invoiceNumber;
     archiveDoc.status = caseStatus.COMPLETED;
