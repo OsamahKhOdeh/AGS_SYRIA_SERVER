@@ -22,6 +22,7 @@ import * as dotenv from "dotenv";
 import { downloadArchiveFile } from "./controllers/ArchiveControllers/ArchiveControllers.js";
 import morgan from "morgan";
 import helmet from "helmet";
+import { updateStock } from "./controllers/stockControllers/stockControllers.js";
 
 //import { errorHandler } from "./middleware/errorHandler.js";
 dotenv.config();
@@ -53,13 +54,14 @@ app.get("/api", (req, res) => {
 
 app.use(errorHandler);
 
+setInterval(() => {
+  updateStock();
+  console.log("Stock Updated Successfully Hourly");
+}, 600000);
+
 const PORT = process.env.PORT || 5001;
 connect()
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(`Server Running on Port: http://localhost:${PORT}`)
-    )
-  )
+  .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
   .catch((error) => console.log(`${error} did not connect`));
 
 mongoose.set("useFindAndModify", false);

@@ -471,7 +471,7 @@ export const updateStock = async () => {
     await Promise.all(
       products.map(async (product) => {
         const productStockItems = stockItems.filter((item) => item.productId.includes(product._id));
-        const totalQuantity = productStockItems.reduce((acc, item) => acc + item.available, 0);
+        const totalQuantity = productStockItems.reduce((acc, item) => acc + item.qty, 0);
 
         product.stock = totalQuantity;
         await product.save();

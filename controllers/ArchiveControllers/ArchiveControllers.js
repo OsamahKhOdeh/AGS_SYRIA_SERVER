@@ -88,8 +88,8 @@ export const addArchiveFile = async (req, res) => {
       archiveDoc.files[fileIndex].path = req.file.path;
     }
 
-    if (archiveDoc.files.length > 3) {
-      archiveDoc.status = caseStatus.IN_PROGRESS;
+    if (archiveDoc?.invoiceNumber?.length > 1 && archiveDoc.files.length > 3) {
+      archiveDoc.status = caseStatus.COMPLETED;
     }
     console.log("fOUND");
 
@@ -133,7 +133,11 @@ export const addArchiveInvoiceNumber = async (req, res) => {
     console.log({ invoiceNumber, acountingEmployee });
     archiveDoc.acountingEmployee = acountingEmployee;
     archiveDoc.invoiceNumber = invoiceNumber;
-    archiveDoc.status = caseStatus.COMPLETED;
+    archiveDoc.status = caseStatus.IN_PROGRESS;
+
+    if (archiveDoc.files.length > 3) {
+      archiveDoc.status = caseStatus.COMPLETED;
+    }
     archiveDoc.save();
     console.log(archiveDoc);
     res.header("Access-Control-Allow-Origin", "*");
@@ -172,6 +176,10 @@ export const getAllArchives = async (req, res) => {
       docs = await ArchiveDocument.find().sort({ updatedAt: -1 }).exec();
     } else if (status === "DRAFT") {
       docs = await ArchiveDocument.find({ status: "DRAFT" }).sort({ updatedAt: -1 }).exec();
+    } else if (status === "DRAFT_PROGRESS") {
+      docs = await ArchiveDocument.find({ $or: [{ status: "DRAFT" }, { status: "IN_PROGRESS" }] })
+        .sort({ updatedAt: -1 })
+        .exec();
     } else if (status === "IN_PROGRESS") {
       docs = await ArchiveDocument.find({ status: "IN_PROGRESS" }).sort({ updatedAt: -1 }).exec();
     } else if (status === "COMPLETED") {
