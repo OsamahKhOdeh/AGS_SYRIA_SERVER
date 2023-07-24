@@ -11,9 +11,11 @@ const productSchema = mongoose.Schema(
     description: { type: String },
     price: { type: Number, required: true },
     netPrice: { type: Number, required: true },
-
     retailPrice: { type: Number },
     wholesalePrice: { type: Number },
+    netPriceSYP: { type: Number },
+    retailPriceSYP: { type: Number },
+    wholesalePriceSYP: { type: Number },
     stock: { type: Number, required: true },
     booked: { type: Number },
     coming: { type: Number },

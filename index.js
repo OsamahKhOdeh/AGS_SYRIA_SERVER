@@ -1,12 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
 import connect from "./config/db.js";
+import cron from "node-cron";
 import { logRequest, setPoweredByHeader } from "./config/middleware.js";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/products.js";
 import stockRoutes from "./routes/stockRoutes.js";
+import currencyRoutes from "./routes/currencyRoutes/currencyRoutes.js";
 
 import proformaInvoiceRoutes from "./routes/proformaInvoiceRoutes/proformaInvoice.js";
 
@@ -23,6 +25,8 @@ import { downloadArchiveFile } from "./controllers/ArchiveControllers/ArchiveCon
 import morgan from "morgan";
 import helmet from "helmet";
 import { updateStock } from "./controllers/stockControllers/stockControllers.js";
+import { updateCurrency } from "./helpers/currencyUpdater.js";
+import { updateAllPrices } from "./helpers/productPriceUpdater.js";
 
 //import { errorHandler } from "./middleware/errorHandler.js";
 dotenv.config();
@@ -44,6 +48,7 @@ app.use("/auth", authRoutes);
 app.use("/pi", proformaInvoiceRoutes);
 app.use("/products", productRoutes);
 app.use("/stock", stockRoutes);
+app.use("/currency", currencyRoutes);
 
 /* -------------------------------------------------------------------------- */
 app.use("/archive", archiveRoutes);
@@ -53,6 +58,13 @@ app.get("/api", (req, res) => {
 });
 
 app.use(errorHandler);
+updateCurrency("SYP", "aleppo");
+updateAllPrices();
+
+cron.schedule("0 * * * *", () => {
+  updateCurrency("SYP", "aleppo");
+  updateAllPrices();
+});
 
 setInterval(() => {
   updateStock();
